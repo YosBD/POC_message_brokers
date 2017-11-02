@@ -2,8 +2,6 @@ const inMemoryProvider = require('./inMemoryProvider');
 const kafkaProvider = require('./kafkaProvider');
 const rabbitmqProvider = require('./rabbitmqProvider');
 const natsProvider = require('./natsProvider');
-const request = require('./request');
-const subscribe = require('./subscribe');
 
 function getProvider(providerName) {
     switch (providerName) {
@@ -54,8 +52,6 @@ function run() {
 
     const provider = getProvider(providerName);
     callFunction(functionName, provider);
-
-
 
     console.log("publisher finished");
 }
