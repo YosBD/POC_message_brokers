@@ -1,4 +1,4 @@
-function publish(){ console.log('in-memory publish')}
+function publish(args){ console.log(`in-memory publish. args: ${JSON.stringify(args)}`)}
 function request(){ console.log('in-memory request')}
 function subscribe(){ console.log('in-memory subscribe')}
 
