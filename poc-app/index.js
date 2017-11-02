@@ -48,7 +48,21 @@ function getArgv(){
             choices: ['rabbit', 'kafka', 'nats', 'memory'],
             describe: 'provider to use'
         })
-        .demandOption(['function', 'provider'], 'Please provide both function and provider arguments to work with this tool')
+        .option('topic', {
+            alias: 't',
+            describe: 'topic to publish/subscribe to'
+        })
+        .option('brokerhost', {
+            alias: 'bh',
+            default: 'localhost',
+            describe: 'topic to publish/subscribe to'
+        })
+        .option('brokerport', {
+            alias: 'bp',
+            default: '123',
+            describe: 'topic to publish/subscribe to'
+        })
+        .demandOption(['function', 'provider','topic'])
         .help()
         .argv;
 }
@@ -56,7 +70,7 @@ function run() {
     const argv = getArgv();
     const provider = getProvider(argv.provider);
     const func = getFunction(argv.function, provider);
-    func(argv._);
+    func(argv.topic, argv._);
 }
 
 run();
