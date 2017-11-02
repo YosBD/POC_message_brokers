@@ -1,27 +1,63 @@
-const publish = require('./publish');
+const inMemoryProvider = require('./inMemoryProvider');
+const kafkaProvider = require('./kafkaProvider');
+const rabbitmqProvider = require('./rabbitmqProvider');
+const natsProvider = require('./natsProvider');
 const request = require('./request');
 const subscribe = require('./subscribe');
 
+function getProvider(providerName) {
+    switch (providerName) {
+        case 'rabbit':
+            return rabbitmqProvider;
+            break;
+        case 'kafka':
+            return kafkaProvider;
+            break;
+        case 'nats':
+            return natsProvider;
+            break;
+        case 'inMemory':
+            return inMemoryProvider;
+        default:
+            printHelp();
+            break;
+    }
+}
+
+function callFunction(functionName, provider) {
+    if (!provider) return;
+
+    switch (functionName) {
+        case 'publish':
+            provider.publish();
+            break;
+        case 'request':
+            provider.request();
+            break;
+        case 'subscribe':
+            provider.subscribe();
+            break;
+        default:
+            printHelp();
+            break;
+    }
+}
 function printHelp(){
-    console.error(`invalid parameter ${firstArg}`);
+    console.error(`invalid parameters ${JSON.stringify(process.argv)}`);
 }
 
-console.log('publisher is running');
+function run() {
+    console.log('publisher is running');
 
-const firstArg = process.argv[2];
+    const functionName = process.argv[2];
+    const providerName = process.argv[3];
 
-switch (firstArg) {
-    case 'publish':
-        publish();
-        break;
-    case 'request':
-        request();
-        break;
-    case 'subscribe':
-        subscribe();
-        break;
-    default:
-        printHelp();
+    const provider = getProvider(providerName);
+    callFunction(functionName, provider);
+
+
+
+    console.log("publisher finished");
 }
 
-console.log("publisher finished");
+run();
