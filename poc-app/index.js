@@ -14,46 +14,49 @@ function getProvider(providerName) {
         case 'nats':
             return natsProvider;
             break;
-        case 'inMemory':
+        case 'memory':
             return inMemoryProvider;
         default:
-            printHelp();
-            break;
+            return undefined;
     }
 }
 
-function callFunction(functionName, provider) {
+function getFunction(functionName, provider) {
     if (!provider) return;
 
     switch (functionName) {
-        case 'publish':
-            provider.publish();
-            break;
-        case 'request':
-            provider.request();
-            break;
-        case 'subscribe':
-            provider.subscribe();
-            break;
+        case 'pub':
+            return provider.publish;
+        case 'req':
+            return provider.request;
+        case 'sub':
+            return provider.subscribe;
         default:
-            printHelp();
-            break;
+            return undefined;
     }
 }
-function printHelp(){
-    console.error(`invalid parameters ${JSON.stringify(process.argv)}`);
+
+function getArgv(){
+    return require('yargs')
+        .option('function', {
+            alias: 'f',
+            choices: ['pub', 'req', 'sub'],
+            describe: 'function to execute'
+        })
+        .option('provider', {
+            alias: 'p',
+            choices: ['rabbit', 'kafka', 'nats', 'memory'],
+            describe: 'provider to use'
+        })
+        .demandOption(['function', 'provider'], 'Please provide both function and provider arguments to work with this tool')
+        .help()
+        .argv;
 }
-
 function run() {
-    console.log('publisher is running');
-
-    const functionName = process.argv[2];
-    const providerName = process.argv[3];
-
-    const provider = getProvider(providerName);
-    callFunction(functionName, provider);
-
-    console.log("publisher finished");
+    const argv = getArgv();
+    const provider = getProvider(argv.provider);
+    const func = getFunction(argv.function, provider);
+    func(argv._);
 }
 
 run();

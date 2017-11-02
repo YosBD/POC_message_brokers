@@ -4,21 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "pub:rabbit": "npm start publish rabbit",
-    "req:rabbit": "npm start request rabbit",
-    "sub:rabbit": "npm start subscribe rabbit",
-    "pub:kafka": "npm start publish kafka",
-    "req:kafka": "npm start request kafka",
-    "sub:kafka": "npm start subscribe kafka",
-    "pub:nats": "npm start publish nats",
-    "req:nats": "npm start request nats",
-    "sub:nats": "npm start subscribe nats",
-    "pub:inMemory": "npm start publish inMemory",
-    "req:inMemory": "npm start request inMemory",
-    "sub:inMemory": "npm start subscribe inMemory",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "args": "^3.0.7",
+    "yargs": "^10.0.3"
+  }
 }
