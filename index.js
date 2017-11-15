@@ -1,4 +1,4 @@
-const inMemoryProvider = require('./inMemoryProvider');
+const inMemoryProvider = require('./InMemoryProvider');
 const kafkaProvider = require('./kafkaProvider');
 const rabbitmqProvider = require('./rabbitmqProvider');
 const natsProvider = require('./natsProvider');
